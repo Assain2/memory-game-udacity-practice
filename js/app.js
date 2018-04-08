@@ -47,3 +47,9 @@ function shuffle(array) {
      cards[i].setAttribute('class', 'card');
    }
  }
+
+/* eventListener for restart button */
+ const restartButton = document.querySelector('.restart');
+ const restartButtonListener = restartButton.addEventListener('click', function() {
+	reverseCards();
+});
