@@ -36,3 +36,14 @@ function shuffle(array) {
  *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
+
+ /* this function will be used in the resetGame function.
+  * this function puts all cards into initial state(which is reverse)
+  * it is done by changing each card's class attribute
+  */
+ function reverseCards () {
+   const cards = document.querySelectorAll('.card');
+   for (let i = 0; i < cards.length; i++) {
+     cards[i].setAttribute('class', 'card');
+   }
+ }
