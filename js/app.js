@@ -2,7 +2,7 @@
  * Create a list that holds all of your cards
  */
 
-const cardsObj = document.querySelectorAll('.card');
+const cards = document.querySelectorAll('.card');
 
 // converted cardsObj into cardsArr in order to use it in 'shuffle' function
 const cardsArr = Object.keys(cards).map(function (key) { return cards[key]; });
