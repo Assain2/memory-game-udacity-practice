@@ -7,12 +7,19 @@ const cards = document.querySelectorAll('.card');
 // converted cardsObj into cardsArr in order to use it in 'shuffle' function
 const cardsArr = Object.keys(cards).map(function (key) { return cards[key]; });
 let shuffledDeck = [];
+
 /*
  * Display the cards on the page
  *   - shuffle the list of cards using the provided "shuffle" method below
  *   - loop through each card and create its HTML
  *   - add each card's HTML to the page
  */
+
+function shuffleDeck () {
+  reverseCards();
+  shuffle(cardsArr);
+  updateDeck();
+}
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -65,5 +72,5 @@ function updateDeck () {
 /* eventListener for restart button */
  const restartButton = document.querySelector('.restart');
  const restartButtonListener = restartButton.addEventListener('click', function() {
-	reverseCards();
+	shuffleDeck();
 });
