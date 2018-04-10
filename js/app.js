@@ -6,7 +6,7 @@ const cards = document.querySelectorAll('.card');
 
 // converted cardsObj into cardsArr in order to use it in 'shuffle' function
 const cardsArr = Object.keys(cards).map(function (key) { return cards[key]; });
-
+let shuffledDeck = [];
 /*
  * Display the cards on the page
  *   - shuffle the list of cards using the provided "shuffle" method below
@@ -28,7 +28,17 @@ function shuffle(array) {
 
     return array;
 }
+// loop through cardsArr and update HTML content
+function updateDeck () {
+  shuffledDeck = [];
+  for (let i = 0; i < cardsArr.length; i++) {
+    shuffledDeck.push(cardsArr[i].innerHTML)
+  }
 
+  for (let i = 0; i < cardsArr.length; i++) {
+    cards[i].innerHTML = shuffledDeck[i];
+  }
+}
 
 /*
  * set up the event listener for a card. If a card is clicked:
