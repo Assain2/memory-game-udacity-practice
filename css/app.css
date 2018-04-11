@@ -55,7 +55,7 @@ h1 {
     height: 125px;
     width: 125px;
     background: #2e3d49;
-    font-size: 0px;
+    font-size: 14px;
     color: #ffffff;
     border-radius: 8px;
     cursor: pointer;
@@ -107,3 +107,41 @@ h1 {
     float: right;
     cursor: pointer;
 }
+
+/*
+ * Styles for modal
+ */
+
+ .modal{
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.6);
+ }
+
+ .modal-content {
+   text-align: center;
+   background-color: rgba(157, 209, 246, 0.3);
+   margin: 20% auto;
+   padding: 20px;
+   width: 70%;
+   height: 70%;
+   box-shadow: 0 5px 8px 0 rgba(0,0,0,0.2), 0 7px 20px 0 rgba(0,0,0,0.2);
+ }
+
+ .new-game {
+   font-size: 60px;
+   cursor: pointer;
+ }
+
+ .star-info {
+   list-style: none;
+   display: inline-block;
+   margin: 2px;
+   padding: 2px;
+ }

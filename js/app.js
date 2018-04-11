@@ -67,6 +67,7 @@ let timerCounter = 0;
 let timerMin = 0;
 let pageClickCounter = document.querySelector('.moves');
 let pageTimer = document.querySelector('.timer');
+let starDiv = document.querySelector('.stars');
 
 const cardsUl = document.querySelector('.deck');
 cardsUl.addEventListener('click', function(event) {
@@ -122,8 +123,10 @@ function checkMatch(arr) {
     arr[1].parentNode.setAttribute('class', 'card match');
     matchedCards++
     if (matchedCards == 8) {
+      updateModal();
+      finalTime.textContent = document.querySelector('.timer').innerHTML;
       stopTimer();
-      alert('you won the game');
+      showModal();
     }
     openedCards = [];
   } else {
@@ -185,16 +188,17 @@ function startTimer() {
 // star rating functionality
 
 function removeStar() {
-  const starDiv = document.querySelector('.stars');
+  starDiv = document.querySelector('.stars');
   const smallStar = starDiv.firstElementChild;
   starDiv.removeChild(smallStar);
 }
 
 
- /* this function will be used in the resetGame function.
+ /*
   * this function puts all cards into initial state(which is reverse)
   * it is done by changing each card's class attribute
   */
+
  function reverseCards () {
    const cards = document.querySelectorAll('.card');
    for (let i = 0; i < cards.length; i++) {
@@ -202,11 +206,50 @@ function removeStar() {
    }
  }
 
-/* eventListener for restart button */
+// eventListener for restart button
+
  const restartButton = document.querySelector('.restart');
  const restartButtonListener = restartButton.addEventListener('click', function() {
+  clickCounter = 0;
   stopTimer();
 	shuffleDeck();
-  clickCounter = 0;
   pageClickCounter.textContent = clickCounter;
+});
+
+// modal element selectors
+
+const modal = document.querySelector('.modal');
+const newGameButton = document.querySelector('.new-game');
+const finalMoves = document.querySelector('.moves-info');
+const finalTime = document.querySelector('.time-info');
+const finalStars = document.querySelector('.star-info');
+
+// update score to showModal
+
+function updateModal() {
+  finalMoves.textContent = clickCounter;
+  finalTime.textContent = pageTimer.textContent;
+  finalStars.innerHTML = starDiv.innerHTML;
+}
+
+
+// show modal function
+
+function showModal() {
+  modal.setAttribute('style', 'display: block');
+}
+
+// hide modal function
+
+function hideModal() {
+  modal.setAttribute('style', 'display: none');
+}
+
+// eventListener for newGameButton
+
+const newGameButtonListener = newGameButton.addEventListener('click', function() {
+  clickCounter = 0;
+  shuffleDeck();
+  pageClickCounter.textContent = clickCounter;
+  hideModal();
 });
