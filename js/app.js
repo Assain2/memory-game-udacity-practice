@@ -1,18 +1,40 @@
-/*
- * Create a list that holds all of your cards
- */
+window.onload = function() {
+  shuffleDeck();
+};
 
+// List of cards
 const cards = document.querySelectorAll('.card');
 
-// converted cardsObj into cardsArr in order to use it in 'shuffle' function
+// Stars initial html
+const initialStarsNumber = "<li><i class=\"fa fa-star\"></i></li><li><i class=\"fa fa-star\"></i></li><li><i class=\"fa fa-star\"></i></li>"
+
+// Converted cardsObj into cardsArr in order to use it in 'shuffle' function
 const cardsArr = Object.keys(cards).map(function (key) { return cards[key]; });
 
+
 /*
- * Display the cards on the page
- *   - shuffle the list of cards using the provided "shuffle" method below
- *   - loop through each card and create its HTML
- *   - add each card's HTML to the page
+ * this function puts all cards into initial state(which is reverse)
+ * it is done by changing each card's class attribute
  */
+
+
+function reverseCards () {
+  const cards = document.querySelectorAll('.card');
+  for (let i = 0; i < cards.length; i++) {
+      cards[i].setAttribute('class', 'card');
+  }
+}
+
+// EventListener for restart button
+const restartButton = document.querySelector('.restart');
+const restartButtonListener = restartButton.addEventListener('click', function() {
+  clickCounter = 0;
+  stopTimer();
+  shuffleDeck();
+  pageClickCounter.textContent = clickCounter;
+  starDiv.innerHTML = initialStarsNumber;
+ });
+
 
 function shuffleDeck () {
   reverseCards();
@@ -22,19 +44,20 @@ function shuffleDeck () {
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
-    var currentIndex = array.length, temporaryValue, randomIndex;
+  var currentIndex = array.length, temporaryValue, randomIndex;
 
-    while (currentIndex !== 0) {
-        randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex -= 1;
-        temporaryValue = array[currentIndex];
-        array[currentIndex] = array[randomIndex];
-        array[randomIndex] = temporaryValue;
-    }
+  while (currentIndex !== 0) {
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+      temporaryValue = array[currentIndex];
+      array[currentIndex] = array[randomIndex];
+      array[randomIndex] = temporaryValue;
+  }
 
-    return array;
+  return array;
 }
-// loop through cardsArr and update HTML content
+
+// Loop through cardsArr and update HTML content
 function updateDeck () {
   shuffledDeck = [];
   for (let i = 0; i < cardsArr.length; i++) {
@@ -45,17 +68,6 @@ function updateDeck () {
     cards[i].innerHTML = shuffledDeck[i];
   }
 }
-
-/*
- * set up the event listener for a card. If a card is clicked:
- *  - display the card's symbol (put this functionality in another function that you call from this one)
- *  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
- *  - if the list already has another card, check to see if the two cards match
- *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
- *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
- *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
- *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
- */
 
 let openedCards = [];
 let matchedCards = 0;
@@ -69,43 +81,46 @@ let pageClickCounter = document.querySelector('.moves');
 let pageTimer = document.querySelector('.timer');
 let starDiv = document.querySelector('.stars');
 
+
 const cardsUl = document.querySelector('.deck');
 cardsUl.addEventListener('click', function(event) {
   clickCounter++;
+
   if (clickCounter == 1) {
-    timerInterval = setInterval(function () {
-      startTimer();
-    }, 1000);
+      timerInterval = setInterval(function () {
+        startTimer();
+      }, 1000);
   }
+
   pageClickCounter.textContent = clickCounter;
   displaySymbol();
   if (clickCounter == 27) {
-    removeStar();
+      removeStar();
   } else if (clickCounter == 47) {
-    removeStar();
+      removeStar();
   }
+
 });
 
-// display card's symbol
-
+// Display card's symbol
 function displaySymbol() {
   if (event.target.tagName == 'LI' && event.target.className == 'card') {
-    event.target.setAttribute('class', 'card show open');
-    addToDisplayedArr();
-    if (openedCards.length === 2) {
-       setTimeout('checkMatch(openedCards);', 300);
-    }
+      event.target.setAttribute('class', 'card show open');
+      addToDisplayedArr();
+      if (openedCards.length === 2) {
+          setTimeout('checkMatch(openedCards);', 300);
+      }
+
   } else if (event.target.tagName == 'I' && event.target.parentNode.className == 'card') {
-    event.target.parentNode.setAttribute('class', 'card show open');
-    addToDisplayedArr();
-    if (openedCards.length === 2) {
-       setTimeout('checkMatch(openedCards);', 300);
-    }
-  }
+      event.target.parentNode.setAttribute('class', 'card show open');
+      addToDisplayedArr();
+      if (openedCards.length === 2) {
+          setTimeout('checkMatch(openedCards);', 300);
+        }
+      }
 }
 
-// add the card to the list of displayed
-
+// Add the card to the list of displayed
 function addToDisplayedArr() {
   if (event.target.tagName == 'LI') {
     openedCards.push(event.target.firstElementChild);
@@ -115,7 +130,7 @@ function addToDisplayedArr() {
 }
 
 
-// check if cards match
+// Check if cards match
 function checkMatch(arr) {
 
   if (arr[0].className == arr[1].className) {
@@ -137,56 +152,50 @@ function checkMatch(arr) {
 }
 
 
-
-// timer functions by udacity user 'pawel.kopycki8spg'
+// Timer functions by udacity user 'pawel.kopycki8spg'
 function startTimer() {
-       let sec;
-       timerCounter++
-       sec = timerCounter;
-       if (timerCounter === 60) {
-           timerMin++;
-           sec = 0;
-           timerCounter = 0;
-       }
-       document.querySelector('.timer').innerHTML = addZeroToTimer(timerMin) + ':' + addZeroToTimer(sec);
-   }
+  let sec;
+  timerCounter++
+  sec = timerCounter;
+  if (timerCounter === 60) {
+    timerMin++;
+    sec = 0;
+    timerCounter = 0;
+  }
+document.querySelector('.timer').innerHTML = addZeroToTimer(timerMin) + ':' + addZeroToTimer(sec);
+}
 
-   function addZeroToTimer(number) {
-       if (number < 10) {
-           return '0' + number;
-       } else {
-           return number;
-       }
+function addZeroToTimer(number) {
+  if (number < 10) {
+    return '0' + number;
+  } else {
+    return number;
+  }
+}
 
-   }
+function stopTimer() {
+  clearInterval(timerInterval);
+  timerCounter = 0;
+  timerMin = 0;
+  document.querySelector('.timer').innerHTML = '00:00';
+}
 
-   function stopTimer() {
-        clearInterval(timerInterval);
-        timerCounter = 0;
-        timerMin = 0;
-        document.querySelector('.timer').innerHTML = '00:00';
-    }
+function timeOfGame() {
 
-    function timeOfGame() {
+// Start game
+  if (clickCounter === 1) {
+      startTime = Date.now();
+  }
 
-        // Start game
+// End game
+  if (matchedCards.length === 8) {
+      endTime = Date.now() - startTime;
+      stopTimer();
+  }
+}
 
-        if (clickCounter === 1) {
-            startTime = Date.now();
-        }
 
-        // End game
-
-        if (matchedCards.length === 8) {
-            endTime = Date.now() - startTime;
-            openPopup();
-            stopTimer();
-        }
-
-    }
-
-// star rating functionality
-
+// Star rating functionality
 function removeStar() {
   starDiv = document.querySelector('.stars');
   const smallStar = starDiv.firstElementChild;
@@ -194,38 +203,15 @@ function removeStar() {
 }
 
 
- /*
-  * this function puts all cards into initial state(which is reverse)
-  * it is done by changing each card's class attribute
-  */
-
- function reverseCards () {
-   const cards = document.querySelectorAll('.card');
-   for (let i = 0; i < cards.length; i++) {
-     cards[i].setAttribute('class', 'card');
-   }
- }
-
-// eventListener for restart button
-
- const restartButton = document.querySelector('.restart');
- const restartButtonListener = restartButton.addEventListener('click', function() {
-  clickCounter = 0;
-  stopTimer();
-	shuffleDeck();
-  pageClickCounter.textContent = clickCounter;
-});
-
-// modal element selectors
-
+// Modal element selectors
 const modal = document.querySelector('.modal');
 const newGameButton = document.querySelector('.new-game');
 const finalMoves = document.querySelector('.moves-info');
 const finalTime = document.querySelector('.time-info');
 const finalStars = document.querySelector('.star-info');
 
-// update score to showModal
 
+// Update score to showModal
 function updateModal() {
   finalMoves.textContent = clickCounter;
   finalTime.textContent = pageTimer.textContent;
@@ -233,23 +219,19 @@ function updateModal() {
 }
 
 
-// show modal function
-
+// Show modal function
 function showModal() {
   modal.setAttribute('style', 'display: block');
 }
 
-// hide modal function
 
+// Hide modal function
 function hideModal() {
   modal.setAttribute('style', 'display: none');
 }
 
-// eventListener for newGameButton
 
+// EventListener for newGameButton
 const newGameButtonListener = newGameButton.addEventListener('click', function() {
-  clickCounter = 0;
-  shuffleDeck();
-  pageClickCounter.textContent = clickCounter;
-  hideModal();
+  location.reload();
 });
