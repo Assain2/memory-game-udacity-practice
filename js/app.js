@@ -57,17 +57,64 @@ function updateDeck () {
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
 
-let firstCard;
-let secondCard;
+let openedCards = [];
+let matchedCards = 0;
 let clickCounter = 0;
+
+let pageClickCounter = document.querySelector('.moves');
+let pageClickCounterValue = pageClickCounter.innerHTML;
+
 const cardsUl = document.querySelector('.deck');
 cardsUl.addEventListener('click', function(event) {
-   console.log(event.target);
-   displaySymbol();
-})
+  clickCounter++;
+  displaySymbol();
+});
+
+// display card's symbol
 
 function displaySymbol() {
-  event.target.setAttribute('class', 'card show open');
+  if (event.target.tagName == 'LI' && event.target.className == 'card') {
+    event.target.setAttribute('class', 'card show open');
+    addToDisplayedArr();
+    if (openedCards.length === 2) {
+       setTimeout('checkMatch(openedCards);', 300);
+    }
+  } else if (event.target.tagName == 'I' && event.target.parentNode.className == 'card') {
+    event.target.parentNode.setAttribute('class', 'card show open');
+    addToDisplayedArr();
+    if (openedCards.length === 2) {
+       setTimeout('checkMatch(openedCards);', 300);
+    }
+  }
+}
+
+// add the card to the list of displayed
+
+function addToDisplayedArr() {
+  if (event.target.tagName == 'LI') {
+    openedCards.push(event.target.firstElementChild);
+  } else if (event.target.tagName == 'I') {
+    openedCards.push(event.target);
+  }
+}
+
+
+// check if cards match
+function checkMatch(arr) {
+
+  if (arr[0].className == arr[1].className) {
+    arr[0].parentNode.setAttribute('class', 'card match');
+    arr[1].parentNode.setAttribute('class', 'card match');
+    matchedCards++
+    if (matchedCards == 8) {
+      alert('you won the game');
+    }
+    openedCards = [];
+  } else {
+    arr[0].parentNode.setAttribute('class', 'card');
+    arr[1].parentNode.setAttribute('class', 'card');
+    openedCards = [];
+  }
 }
 
 
@@ -90,4 +137,5 @@ function displaySymbol() {
  const restartButton = document.querySelector('.restart');
  const restartButtonListener = restartButton.addEventListener('click', function() {
 	shuffleDeck();
+  pageClickCounter.textContent = "0";
 });
