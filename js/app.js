@@ -62,12 +62,15 @@ let matchedCards = 0;
 let clickCounter = 0;
 
 let pageClickCounter = document.querySelector('.moves');
-let pageClickCounterValue = pageClickCounter.innerHTML;
 
 const cardsUl = document.querySelector('.deck');
 cardsUl.addEventListener('click', function(event) {
   clickCounter++;
+  pageClickCounter.textContent = clickCounter;
   displaySymbol();
+  if (clickCounter < 26) {
+
+  }
 });
 
 // display card's symbol
@@ -137,5 +140,6 @@ function checkMatch(arr) {
  const restartButton = document.querySelector('.restart');
  const restartButtonListener = restartButton.addEventListener('click', function() {
 	shuffleDeck();
-  pageClickCounter.textContent = "0";
+  clickCounter = 0;
+  pageClickCounter.textContent = clickCounter;
 });
