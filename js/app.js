@@ -60,17 +60,25 @@ function updateDeck () {
 let openedCards = [];
 let matchedCards = 0;
 let clickCounter = 0;
-
+let startTime;
+let endTime;
+let timerInterval;
+let timerCounter = 0;
+let timerMin = 0;
 let pageClickCounter = document.querySelector('.moves');
+let pageTimer = document.querySelector('.timer');
 
 const cardsUl = document.querySelector('.deck');
 cardsUl.addEventListener('click', function(event) {
   clickCounter++;
+  if (clickCounter == 1) {
+    timerInterval = setInterval(function () {
+      startTimer();
+    }, 1000);
+  }
   pageClickCounter.textContent = clickCounter;
   displaySymbol();
-  if (clickCounter < 26) {
-
-  }
+  if (clickCounter < 26) {}
 });
 
 // display card's symbol
@@ -110,6 +118,7 @@ function checkMatch(arr) {
     arr[1].parentNode.setAttribute('class', 'card match');
     matchedCards++
     if (matchedCards == 8) {
+      stopTimer();
       alert('you won the game');
     }
     openedCards = [];
@@ -122,8 +131,52 @@ function checkMatch(arr) {
 
 
 
+// timer functions by udacity user 'pawel.kopycki8spg'
+function startTimer() {
+       let sec;
+       timerCounter++
+       sec = timerCounter;
+       if (timerCounter === 60) {
+           timerMin++;
+           sec = 0;
+           timerCounter = 0;
+       }
+       document.querySelector('.timer').innerHTML = addZeroToTimer(timerMin) + ':' + addZeroToTimer(sec);
+   }
 
+   function addZeroToTimer(number) {
+       if (number < 10) {
+           return '0' + number;
+       } else {
+           return number;
+       }
 
+   }
+
+   function stopTimer() {
+        clearInterval(timerInterval);
+        timerCounter = 0;
+        timerMin = 0;
+        document.querySelector('.timer').innerHTML = '00:00';
+    }
+
+    function timeOfGame() {
+
+        // Start game
+
+        if (clickCounter === 1) {
+            startTime = Date.now();
+        }
+
+        // End game
+
+        if (matchedCards.length === 8) {
+            endTime = Date.now() - startTime;
+            openPopup();
+            stopTimer();
+        }
+
+    }
 
  /* this function will be used in the resetGame function.
   * this function puts all cards into initial state(which is reverse)
@@ -139,6 +192,7 @@ function checkMatch(arr) {
 /* eventListener for restart button */
  const restartButton = document.querySelector('.restart');
  const restartButtonListener = restartButton.addEventListener('click', function() {
+  stopTimer();
 	shuffleDeck();
   clickCounter = 0;
   pageClickCounter.textContent = clickCounter;
