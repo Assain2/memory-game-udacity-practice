@@ -6,7 +6,6 @@ const cards = document.querySelectorAll('.card');
 
 // converted cardsObj into cardsArr in order to use it in 'shuffle' function
 const cardsArr = Object.keys(cards).map(function (key) { return cards[key]; });
-let shuffledDeck = [];
 
 /*
  * Display the cards on the page
@@ -57,6 +56,24 @@ function updateDeck () {
  *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
+
+let firstCard;
+let secondCard;
+let clickCounter = 0;
+const cardsUl = document.querySelector('.deck');
+cardsUl.addEventListener('click', function(event) {
+   console.log(event.target);
+   displaySymbol();
+})
+
+function displaySymbol() {
+  event.target.setAttribute('class', 'card show open');
+}
+
+
+
+
+
 
  /* this function will be used in the resetGame function.
   * this function puts all cards into initial state(which is reverse)
