@@ -78,7 +78,11 @@ cardsUl.addEventListener('click', function(event) {
   }
   pageClickCounter.textContent = clickCounter;
   displaySymbol();
-  if (clickCounter < 26) {}
+  if (clickCounter == 27) {
+    removeStar();
+  } else if (clickCounter == 47) {
+    removeStar();
+  }
 });
 
 // display card's symbol
@@ -177,6 +181,15 @@ function startTimer() {
         }
 
     }
+
+// star rating functionality
+
+function removeStar() {
+  const starDiv = document.querySelector('.stars');
+  const smallStar = starDiv.firstElementChild;
+  starDiv.removeChild(smallStar);
+}
+
 
  /* this function will be used in the resetGame function.
   * this function puts all cards into initial state(which is reverse)
