@@ -29,6 +29,7 @@ function reverseCards () {
 const restartButton = document.querySelector('.restart');
 const restartButtonListener = restartButton.addEventListener('click', function() {
   clickCounter = 0;
+  openedCards = 0;
   stopTimer();
   shuffleDeck();
   pageClickCounter.textContent = clickCounter;
@@ -106,14 +107,16 @@ cardsUl.addEventListener('click', function(event) {
 
 // Display card's symbol
 function displaySymbol() {
-  if (event.target.tagName == 'LI' && event.target.className == 'card') {
+
+  console.log(openedCards)
+  if (event.target.tagName == 'LI' && event.target.className == 'card' && openedCards.length < 3) {
       event.target.setAttribute('class', 'card show open');
       addToDisplayedArr();
       if (openedCards.length === 2) {
           setTimeout('checkMatch(openedCards);', 300);
       }
 
-  } else if (event.target.tagName == 'I' && event.target.parentNode.className == 'card') {
+  } else if (event.target.tagName == 'I' && event.target.parentNode.className == 'card' && openedCards.length < 3) {
       event.target.parentNode.setAttribute('class', 'card show open');
       addToDisplayedArr();
       if (openedCards.length === 2) {
@@ -136,8 +139,17 @@ function addToDisplayedArr() {
 function checkMatch(arr) {
 
   if (arr[0].className == arr[1].className) {
+    let allOpenedCards = document.querySelectorAll('.card.show');
     arr[0].parentNode.setAttribute('class', 'card match');
     arr[1].parentNode.setAttribute('class', 'card match');
+
+    for (let i = 0; i < arr.length; i++) {
+      if (allOpenedCards[i].className == 'card show open') {
+        allOpenedCards[i].className = 'card';
+      }
+
+    }
+
     matchedCards++
     if (matchedCards == 8) {
       updateModal();
@@ -147,8 +159,9 @@ function checkMatch(arr) {
     }
     openedCards = [];
   } else {
-    arr[0].parentNode.setAttribute('class', 'card');
-    arr[1].parentNode.setAttribute('class', 'card');
+    for (let i = 0; i < arr.length; i++) {
+      arr[i].parentNode.setAttribute('class', 'card');
+    }
     openedCards = [];
   }
 }

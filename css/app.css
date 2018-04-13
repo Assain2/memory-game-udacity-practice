@@ -73,6 +73,7 @@ h1 {
 
 .deck .card.show {
     font-size: 33px;
+    transition: all 0.1s ease;
 }
 
 .deck .card.match {
