@@ -29,7 +29,7 @@ function reverseCards () {
 const restartButton = document.querySelector('.restart');
 const restartButtonListener = restartButton.addEventListener('click', function() {
   clickCounter = 0;
-  openedCards = 0;
+  openedCards = [];
   stopTimer();
   shuffleDeck();
   pageClickCounter.textContent = clickCounter;
@@ -108,7 +108,6 @@ cardsUl.addEventListener('click', function(event) {
 // Display card's symbol
 function displaySymbol() {
 
-  console.log(openedCards)
   if (event.target.tagName == 'LI' && event.target.className == 'card' && openedCards.length < 3) {
       event.target.setAttribute('class', 'card show open');
       addToDisplayedArr();
