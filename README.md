@@ -21,6 +21,6 @@ After matching all the pairs the application presents the final result.
 
 ## Star rating
 
-3 stars: 0-26 moves
-2 stars: 27-46 moves
-1 star: 47+ moves
+- 3 stars: 0-26 moves
+- 2 stars: 27-46 moves
+- 1 star: 47+ moves
