@@ -3,7 +3,8 @@
 ## Table of Contents
 
 * [Instructions](#instructions)
-* [Contributing](#contributing)
+* [Elements of the game](#elements-of-the-game)
+* [Star rating](#star-rating)
 
 ## Instructions
 
