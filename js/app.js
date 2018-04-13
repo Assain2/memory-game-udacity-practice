@@ -84,9 +84,11 @@ let starDiv = document.querySelector('.stars');
 
 const cardsUl = document.querySelector('.deck');
 cardsUl.addEventListener('click', function(event) {
-  clickCounter++;
+  if (event.target.tagName == 'LI' && event.target.className == 'card') {
+    clickCounter++;
+  }
 
-  if (clickCounter == 1) {
+  if (clickCounter == 1 && event.target.className == 'card') {
       timerInterval = setInterval(function () {
         startTimer();
       }, 1000);
